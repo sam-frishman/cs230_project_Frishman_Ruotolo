@@ -33,6 +33,7 @@ def evaluate_sess(sess, model_spec, num_steps, writer=None, params=None):
 
     # Get the values of the metrics
     metrics_values = {k: v[0] for k, v in eval_metrics.items()}
+    print(metrics_values)
     metrics_val = sess.run(metrics_values)
     metrics_string = " ; ".join("{}: {:05.3f}".format(k, v) for k, v in metrics_val.items())
     logging.info("- Eval metrics: " + metrics_string)
@@ -48,6 +49,9 @@ def evaluate_sess(sess, model_spec, num_steps, writer=None, params=None):
 
 
 def evaluate(model_spec, model_dir, params, restore_from):
+    #print("before")
+    #print(tf.Print(model_spec['predictions'],[model_spec['predictions']]))
+    #print("after")
     """Evaluate the model
 
     Args:

@@ -22,27 +22,43 @@ def build_model(is_training, inputs, params):
     out = images
     # Define the number of channels of each convolution
     # For each block, we do: 3x3 conv -> batch norm -> relu -> 2x2 maxpool
+   
+    
     num_channels = params.num_channels
     bn_momentum = params.bn_momentum
-    channels = [num_channels, num_channels * 2, num_channels * 4, num_channels * 8]
-    for i, c in enumerate(channels):
+
+    numFilters = 4
+    imageSize = 64
+    kernels = [2,2,2,2]
+    channels = [16, 16*2, 16*4, 16*8]
+    maxPool = [True, True, True, True] 
+    numPools = 4
+    finalDims = int(imageSize/(2**numPools))
+    for i in range(numFilters):
         with tf.variable_scope('block_{}'.format(i+1)):
-            out = tf.layers.conv2d(out, c, 3, padding='same')
+            out = tf.layers.conv2d(out, channels[i], kernels[i], padding='same')
             if params.use_batch_norm:
                 out = tf.layers.batch_normalization(out, momentum=bn_momentum, training=is_training)
             out = tf.nn.relu(out)
-            out = tf.layers.max_pooling2d(out, 2, 2)
+            if maxPool[i]:
+                out = tf.layers.max_pooling2d(out, 2, 2)
 
-    assert out.get_shape().as_list() == [None, 4, 4, num_channels * 8]
+    print(out.get_shape().as_list())
+    #finalDims = 
+    print(finalDims)
 
-    out = tf.reshape(out, [-1, 4 * 4 * num_channels * 8])
-    with tf.variable_scope('fc_1'):
+    assert out.get_shape().as_list() == [None, finalDims, finalDims, channels[numFilters-1]]
+
+    out = tf.reshape(out, [-1, finalDims*finalDims*channels[numFilters-1]])
+
+    with tf.variable_scope('fc_2'):
         out = tf.layers.dense(out, num_channels * 8)
         if params.use_batch_norm:
             out = tf.layers.batch_normalization(out, momentum=bn_momentum, training=is_training)
         out = tf.nn.relu(out)
-    with tf.variable_scope('fc_2'):
-        logits = tf.layers.dense(out, params.num_labels)
+    with tf.variable_scope('fc_3'):
+        out = tf.layers.dense(out, params.num_labels)
+        logits = tf.nn.relu(out)
 
     return logits
 
