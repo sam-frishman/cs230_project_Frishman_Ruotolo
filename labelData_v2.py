@@ -11,6 +11,7 @@ with open('data/image_class_labels.csv', 'r') as content_file:
 classArray = labelContent.split('\n')
 classArray[0] = 1
 del classArray[-1]
+classArray = np.concatenate((classArray,classArray), axis = 0)
 
 # Import class to label mapping
 with open('data/class_names.csv', 'r') as content_file:
@@ -44,6 +45,8 @@ brand_y_vals = list(brand_dict.values())
 plt.bar(range(len(brand_dict)), brand_y_vals, tick_label = brand_x_labels)
 plt.xticks(fontsize = 4)
 plt.show()
+
+
 # Year plotting
 date_dict = OrderedDict(sorted(date_dict.items()))
 date_x_labels = list(date_dict.keys())
@@ -81,6 +84,8 @@ for i in brandArray:
 # Relabel image filenames to include classification information (brand)
 filelist_data = glob.glob('data/rawImages/car_ims/*.jpg')
 filelist_data.sort()
+
+"""
 cnt = 0
 for fname in filelist_data:
 	curImage = Image.open(fname)
@@ -88,4 +93,6 @@ for fname in filelist_data:
 	newName = str(binsArrayNames[int(classArray[cnt])-1]) + '_IMG_' + filesName
 	cnt += 1
 	curImage.save('data/renamedImages/' + newName)
+
+"""
 

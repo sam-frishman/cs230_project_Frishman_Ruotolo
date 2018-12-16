@@ -1,0 +1,10 @@
+Creating the dataset...
+Creating the model...
+Starting evaluation
+2018-12-15 00:31:49.818233: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+INFO:tensorflow:Restoring parameters from experiments/base_model/best_weights/after-epoch-10
+Restoring parameters from experiments/base_model/best_weights/after-epoch-10
+- Eval metrics: loss: 0.034 ; accuracy: 1.000
+[None, 4, 4, 128]
+4
+{'loss': <tf.Tensor 'metrics/mean/value:0' shape=() dtype=float32>, 'accuracy': <tf.Tensor 'metrics/accuracy/value:0' shape=() dtype=float32>}

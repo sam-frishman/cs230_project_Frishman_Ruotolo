@@ -12,7 +12,6 @@ from model.evaluation import evaluate
 from model.utils import Params
 from model.utils import set_logger
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument('--model_dir', default='experiments/test',
                     help="Experiment directory containing params.json")

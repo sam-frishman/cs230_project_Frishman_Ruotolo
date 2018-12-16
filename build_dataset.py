@@ -25,11 +25,11 @@ from PIL import Image
 from tqdm import tqdm
 
 
-SIZE = 256
+SIZE = 128
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--data_dir', default='data/SIGNS', help="Directory with the SIGNS dataset")
-parser.add_argument('--output_dir', default='data/64x64_SIGNS', help="Where to write the new data")
+parser.add_argument('--data_dir', default='data/CARS', help="Directory with the CARS dataset")
+parser.add_argument('--output_dir', default='data/64x64_CARS', help="Where to write the new data")
 
 
 def resize_and_save(filename, output_dir, size=SIZE):
@@ -46,8 +46,8 @@ if __name__ == '__main__':
     assert os.path.isdir(args.data_dir), "Couldn't find the dataset at {}".format(args.data_dir)
 
     # Define the data directories
-    train_data_dir = os.path.join(args.data_dir, 'train_signs')
-    test_data_dir = os.path.join(args.data_dir, 'test_signs')
+    train_data_dir = os.path.join(args.data_dir, 'train_cars')
+    test_data_dir = os.path.join(args.data_dir, 'test_cars')
 
     # Get the filenames in each directory (train and test)
     filenames = os.listdir(train_data_dir)
@@ -56,7 +56,7 @@ if __name__ == '__main__':
     test_filenames = os.listdir(test_data_dir)
     test_filenames = [os.path.join(test_data_dir, f) for f in test_filenames if f.endswith('.jpg')]
 
-    # Split the images in 'train_signs' into 80% train and 20% dev
+    # Split the images in 'train_cars' into 80% train and 20% dev
     # Make sure to always shuffle with a fixed seed so that the split is reproducible
     random.seed(230)
     filenames.sort()
